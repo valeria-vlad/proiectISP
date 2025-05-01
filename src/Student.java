@@ -40,7 +40,7 @@ public class Student {
 
     public void vizualizareProgrameMaster(Master m) {
         mastereVizualizate.add(m);
-        System.out.println("Master vizualizat: " + m.getNume());
+        System.out.println("Master vizualizat: " + m.getNume() +  " - " + m.getDescriere() );
     }
 
     public void alegereProgramMaster(Master m) {
