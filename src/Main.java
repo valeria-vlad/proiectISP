@@ -145,11 +145,12 @@ public class Main {
 
             switch (opt) {
                 case 1:
-                    System.out.print("Nume master (AUTOMATICA_INFORMATICA / MANAGEMENTUL_SI_PROTECTIA / ROBOTICA_AUTOMATIZARI / SISTEME_MEDICALE): ");
+                    System.out.print("Nume master (Robotică și Automatizări / Managementul și Protecția Informației / Sisteme Informatice în Medicină / Automatică și informatică industrială): ");
                     NumeMaster numeMaster = null;
                     while (numeMaster == null) {
                         try {
-                            numeMaster = NumeMaster.valueOf(scanner.nextLine().toUpperCase());
+                            String input = scanner.nextLine();
+                            numeMaster = NumeMaster.fromUserInput(input);
                         } catch (IllegalArgumentException e) {
                             System.out.println("Nume invalid. Te rugam sa incerci din nou:");
                         }
@@ -165,7 +166,7 @@ public class Main {
                         String t = scanner.nextLine();
                         if (t.equalsIgnoreCase("END")) break;
                         try {
-                            tehnologii.add(Tehnologii.valueOf(t.toUpperCase())); // Transformam String in enum
+                            tehnologii.add(Tehnologii.fromUserInput(t));
                         } catch (IllegalArgumentException e) {
                             System.out.println("Tehnologie invalida!");
                         }
@@ -178,7 +179,7 @@ public class Main {
                         String c = scanner.nextLine();
                         if (c.equalsIgnoreCase("END")) break;
                         try {
-                            competente.add(CompetenteSpecifice.valueOf(c.toUpperCase())); // Transformare String in enum
+                            competente.add(CompetenteSpecifice.fromUserInput(c));
                         } catch (IllegalArgumentException e) {
                             System.out.println("Competenta invalida!");
                         }
