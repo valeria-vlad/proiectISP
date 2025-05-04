@@ -13,7 +13,11 @@ public enum Tehnologii {
     punct_net,
     UML,
     Cloud,
-    Blockchain;
+    Blockchain,
+    SQL,
+    JavaScript,
+    HTML,
+    CSS;
 
     public static Tehnologii fromUserInput(String input) {
         String normalized = normalize(input);

@@ -5,7 +5,11 @@ public enum NumeMaster {
     Automatică_și_informatică_industrială,
     Managementul_și_Protecția_Informației,
     Robotică_și_Automatizări,
-    Sisteme_Informatice_în_Medicină;
+    Sisteme_Informatice_în_Medicină,
+    Securitate_Cibernetica,
+    Data_Science,
+    Jocuri_Video_Si_Realitate_Virtuala,
+    Cloud_Computing;
 
     public static NumeMaster fromUserInput(String input) {
         String normalizedInput = normalize(input);
@@ -18,7 +22,7 @@ public enum NumeMaster {
     }
 
     private static String normalize(String text) {
-        // Elimină diacritice și pune totul cu litere mici, înlocuiește _ cu spatiu
+        // Eliminam diacriticele si punem totul cu litere mici, inlocuim _ cu spatiu
         String noAccents = Normalizer.normalize(text, Normalizer.Form.NFD)
                 .replaceAll("[\\p{InCombiningDiacriticalMarks}]", "")
                 .replace("_", " ")

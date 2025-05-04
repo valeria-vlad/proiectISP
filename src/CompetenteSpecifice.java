@@ -8,7 +8,8 @@ public enum CompetenteSpecifice {
     Arhitecturi_software,
     Prelucrarea_Semnalelor,
     Sisteme_de_Operare,
-    Rețele_de_Calculatoare;
+    Rețele_de_Calculatoare,
+    Dezvoltarea_de_aplicatii;
 
 
     public static CompetenteSpecifice fromUserInput(String input) {
@@ -25,7 +26,7 @@ public enum CompetenteSpecifice {
 
     private static String normalize(String input) {
         return Normalizer.normalize(input, Normalizer.Form.NFD)
-                .replaceAll("[\\p{InCombiningDiacriticalMarks}]", "") // elimină diacriticele
+                .replaceAll("[\\p{InCombiningDiacriticalMarks}]", "") // eliminam diacriticele
                 .replace("_", "")
                 .replace("-", "")
                 .replace(" ", "")

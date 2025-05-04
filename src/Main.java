@@ -145,7 +145,7 @@ public class Main {
 
             switch (opt) {
                 case 1:
-                    System.out.print("Nume master (Robotică și Automatizări / Managementul și Protecția Informației / Sisteme Informatice în Medicină / Automatică și informatică industrială): ");
+                    System.out.print("Nume master: ");
                     NumeMaster numeMaster = null;
                     while (numeMaster == null) {
                         try {
