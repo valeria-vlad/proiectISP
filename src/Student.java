@@ -22,11 +22,38 @@ public class Student {
         return nume;
     }
 
-    List<Facultate> facultati = new ArrayList<>();
-    List<ProfesorCoordonator> profesoriCoordonatori = new ArrayList<>();
-    List<Master> mastereVizualizate = new ArrayList<>();
-    List<Tehnologii> tehnologii = new ArrayList<>();
-    Master masterAles;
+    public double getMedieFacultate() {
+        return medieFacultate;
+    }
+
+    private List<Facultate> facultati = new ArrayList<>();
+    private List<ProfesorCoordonator> profesoriCoordonatori = new ArrayList<>();
+    private List<Master> mastereVizualizate = new ArrayList<>();
+    private List<Tehnologii> tehnologii = new ArrayList<>();
+    private Master masterAles;
+
+    // Getter pentru listă de facultăți
+    public List<Facultate> getFacultati() {
+        return facultati;
+    }
+
+    // Getter pentru listă de tehnologii
+    public List<Tehnologii> getTechnologies() {
+        return tehnologii;
+    }
+
+    // Getter pentru mastere vizualizate
+    public List<Master> getMastereVizualizate() {
+        return mastereVizualizate;
+    }
+
+    public void adaugaFacultate(Facultate facultate) {
+        facultati.add(facultate);
+    }
+
+    public void addTechnology(Tehnologii tehnologie) {
+        tehnologii.add(tehnologie);
+    }
 
     public void addInformatiiEducatie(Facultate f, Tehnologii t) {
         facultati.add(f);

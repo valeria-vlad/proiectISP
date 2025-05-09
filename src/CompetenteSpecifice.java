@@ -9,7 +9,14 @@ public enum CompetenteSpecifice {
     Prelucrarea_Semnalelor,
     Sisteme_de_Operare,
     Rețele_de_Calculatoare,
-    Dezvoltarea_de_aplicatii;
+    Dezvoltarea_de_aplicatii,
+    Algoritmi,
+    Analiza_Datelor,
+    Securitate_Informatica,
+    Networking,
+    Baze_de_date,
+    Design_Patterns,
+    Cloud_Computing;
 
 
     public static CompetenteSpecifice fromUserInput(String input) {

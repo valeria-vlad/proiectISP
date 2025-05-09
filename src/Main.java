@@ -1,36 +1,27 @@
 import java.util.*;
-import java.util.ArrayList;
-import java.util.EnumSet;
-import java.util.List;
 
 public class Main {
     static Scanner scanner = new Scanner(System.in);
     static List<Master> mastere = new ArrayList<>();
     static Map<String, Student> conturiStudenti = new HashMap<>();
+    static Map<NumeMaster, CerinteMinime> criteriiMaster = new HashMap<>();
+    static SistemRecomandare sistemRecomandare = new SistemRecomandare();
 
     public static void main(String[] args) {
+        initializeazaDatele();
 
-        mastere.add(new Master(
-                NumeMaster.Automatică_și_informatică_industrială,
-                "Descriere program 1",
-                EnumSet.noneOf(Tehnologii.class),
-                EnumSet.noneOf(CompetenteSpecifice.class),
-                50
-        ));
-
-        mastere.add(new Master(
-                NumeMaster.Managementul_și_Protecția_Informației,
-                "Descriere program 2",
-                EnumSet.of(Tehnologii.Java, Tehnologii.C_plus_plus),
-                EnumSet.of(CompetenteSpecifice.Limbaje_de_Programare),
-                30
-        ));
-
-        System.out.println("Bine ati venit la sistemul de admitere la master!");
+        System.out.println("Bine ati venit la sistemul inteligent de admitere la master!");
         System.out.println("Selectati rolul:");
         System.out.println("1. Student");
         System.out.println("2. Admin");
-        int opt = Integer.parseInt(scanner.nextLine());
+        int opt = 0;
+        try {
+            opt = Integer.parseInt(scanner.nextLine());
+        } catch (NumberFormatException e) {
+            System.out.println("Optiune invalida. Va rugam sa introduceti un numar.");
+            main(args); // recursivitate pentru repornirea aplicatiei
+            return;
+        }
 
         if (opt == 1) {
             Student student = autentificareSauCreareStudent();
@@ -40,14 +31,97 @@ public class Main {
             meniuAdmin(admin);
         } else {
             System.out.println("Optiune invalida!");
+            main(args); // recursivitate pentru repornirea aplicatiei
         }
+    }
+
+    static void initializeazaDatele() {
+        // initializam cateva programe de master
+        Master intelligentalArtificiala = new Master(
+                NumeMaster.Inteligenta_Artificiala,
+                "Program de master focalizat pe tehnici avansate de IA si machine learning",
+                EnumSet.of(Tehnologii.Python, Tehnologii.TensorFlow, Tehnologii.Machine_Learning),
+                EnumSet.of(CompetenteSpecifice.Algoritmi, CompetenteSpecifice.Analiza_Datelor, CompetenteSpecifice.Limbaje_de_Programare),
+                30
+        );
+
+        Master securitateCibernetica = new Master(
+                NumeMaster.Securitate_Cibernetica,
+                "Program de master pentru specialisti in securitatea sistemelor informatice",
+                EnumSet.of(Tehnologii.Java, Tehnologii.Networking, Tehnologii.Linux),
+                EnumSet.of(CompetenteSpecifice.Securitate_Informatica, CompetenteSpecifice.Networking, CompetenteSpecifice.Sisteme_de_Operare),
+                25
+        );
+
+        Master inginerieSoftware = new Master(
+                NumeMaster.Inginerie_Software,
+                "Program de master pentru dezvoltarea aplicatiilor software complexe",
+                EnumSet.of(Tehnologii.Java, Tehnologii.SQL, Tehnologii.HTML),
+                EnumSet.of(CompetenteSpecifice.Baze_de_date, CompetenteSpecifice.Limbaje_de_Programare, CompetenteSpecifice.Design_Patterns),
+                35
+        );
+
+        Master bigData = new Master(
+                NumeMaster.Big_Data,
+                "Program de master pentru analiza si gestionarea volumelor mari de date",
+                EnumSet.of(Tehnologii.SQL, Tehnologii.Hadoop, Tehnologii.Spark),
+                EnumSet.of(CompetenteSpecifice.Baze_de_date, CompetenteSpecifice.Analiza_Datelor, CompetenteSpecifice.Cloud_Computing),
+                20
+        );
+
+        // adaugam masterele in lista
+        mastere.add(intelligentalArtificiala);
+        mastere.add(securitateCibernetica);
+        mastere.add(inginerieSoftware);
+        mastere.add(bigData);
+
+        // initializam criteriile minime pentru fiecare master
+        CerinteMinime cerinteIA = new CerinteMinime(8.5);
+        cerinteIA.adaugaTehnologieRecomandata(Tehnologii.Python);
+        cerinteIA.adaugaTehnologieRecomandata(Tehnologii.Machine_Learning);
+
+        CerinteMinime cerinteSec = new CerinteMinime(8.0);
+        cerinteSec.adaugaTehnologieRecomandata(Tehnologii.Networking);
+        cerinteSec.adaugaTehnologieRecomandata(Tehnologii.Linux);
+
+        CerinteMinime cerinteIS = new CerinteMinime(7.5);
+        cerinteIS.adaugaTehnologieRecomandata(Tehnologii.Java);
+        cerinteIS.adaugaTehnologieRecomandata(Tehnologii.HTML);
+
+        CerinteMinime cerinteBD = new CerinteMinime(8.0);
+        cerinteBD.adaugaTehnologieRecomandata(Tehnologii.SQL);
+        cerinteBD.adaugaTehnologieRecomandata(Tehnologii.Spark);
+
+        // adaugam criteriile in map
+        criteriiMaster.put(NumeMaster.Inteligenta_Artificiala, cerinteIA);
+        criteriiMaster.put(NumeMaster.Securitate_Cibernetica, cerinteSec);
+        criteriiMaster.put(NumeMaster.Inginerie_Software, cerinteIS);
+        criteriiMaster.put(NumeMaster.Big_Data, cerinteBD);
+
+        // adaugam cativa studenti predefiniti pentru testare
+        Student student1 = new Student("Ana Popescu", "ana@gmail.com.com", "0722111222", "12.05.1999", "20.06.2023", 9.2);
+        student1.addTechnology(Tehnologii.Java);
+        student1.addTechnology(Tehnologii.Python);
+
+        Student student2 = new Student("Mihai Ionescu", "mihai@gmail.com.com", "0733222333", "22.02.1998", "15.06.2022", 8.4);
+        student2.addTechnology(Tehnologii.SQL);
+        student2.addTechnology(Tehnologii.HTML);
+
+        conturiStudenti.put("ana@gmail.com", student1);
+        conturiStudenti.put("mihai@gmail.com", student2);
     }
 
     static Student autentificareSauCreareStudent() {
         System.out.println("Aveti deja un cont?");
         System.out.println("1. Da");
         System.out.println("2. Nu");
-        int opt = Integer.parseInt(scanner.nextLine());
+        int opt = 0;
+        try {
+            opt = Integer.parseInt(scanner.nextLine());
+        } catch (NumberFormatException e) {
+            System.out.println("Optiune invalida. Va rugam sa introduceti un numar.");
+            return autentificareSauCreareStudent();
+        }
 
         if (opt == 1) {
             System.out.print("Email: ");
@@ -71,7 +145,12 @@ public class Main {
             System.out.print("Data absolvire: ");
             String dataAbsolvire = scanner.nextLine();
             System.out.print("Medie facultate: ");
-            double medie = Double.parseDouble(scanner.nextLine());
+            double medie = 0;
+            try {
+                medie = Double.parseDouble(scanner.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.println("Valoare invalida pentru medie. Se va folosi 0.");
+            }
 
             Student student = new Student(nume, mail, nrTel, dataNastere, dataAbsolvire, medie);
             conturiStudenti.put(mail, student);
@@ -97,34 +176,86 @@ public class Main {
 
     static void meniuStudent(Student student) {
         while (true) {
-            System.out.println("\n Meniu Student");
+            System.out.println("\nMeniu Student");
             System.out.println("1. Vizualizare programe master");
-            System.out.println("2. Alegere program master");
-            System.out.println("3. Aplicare la master");
+            System.out.println("2. Obtine recomandari personalizate");
+            System.out.println("3. Alegere program master");
+            System.out.println("4. Aplicare la master");
+            System.out.println("5. Adauga detalii educatie");
             System.out.println("0. Iesire");
-            int opt = Integer.parseInt(scanner.nextLine());
+
+            int opt = 0;
+            try {
+                opt = Integer.parseInt(scanner.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.println("Optiune invalida. Va rugam sa introduceti un numar.");
+                continue;
+            }
 
             switch (opt) {
                 case 1:
+                    System.out.println("\nPrograme de Master Disponibile");
                     for (Master m : mastere) {
                         m.afisare();
                         student.vizualizareProgrameMaster(m);
+                        System.out.println("----------------------------------------");
                     }
                     break;
                 case 2:
+                    // afisam recomandari personalizate
+                    List<Master> recomandari = sistemRecomandare.recomandaProgrameMaster(student, mastere, criteriiMaster);
+                    System.out.println("\nRecomandări personalizate pentru tine");
+                    for (int i = 0; i < recomandari.size(); i++) {
+                        Master m = recomandari.get(i);
+                        double procentCompatibilitate = sistemRecomandare.getProcentCompatibilitate(m.getNume());
+                        System.out.println((i+1) + ". " + m.getNume() +
+                                " - Compatibilitate: " + String.format("%.1f", procentCompatibilitate) + "%");
+                        System.out.println(sistemRecomandare.getSugestiiPersonalizate(student, m));
+                        System.out.println("----------------------------------------");
+                    }
+                    break;
+                case 3:
+                    System.out.println("\nAlegere Program Master");
                     System.out.println("Selectati numarul masterului:");
                     for (int i = 0; i < mastere.size(); i++) {
                         System.out.println((i + 1) + ". " + mastere.get(i).getNume());
                     }
-                    int alegere = Integer.parseInt(scanner.nextLine()) - 1;
+                    int alegere = 0;
+                    try {
+                        alegere = Integer.parseInt(scanner.nextLine()) - 1;
+                    } catch (NumberFormatException e) {
+                        System.out.println("Optiune invalida.");
+                        break;
+                    }
+
                     if (alegere >= 0 && alegere < mastere.size()) {
-                        student.alegereProgramMaster(mastere.get(alegere));
+                        Master masterAles = mastere.get(alegere);
+                        student.alegereProgramMaster(masterAles);
+
+                        // afisam feedback personalizat despre alegere
+                        System.out.println("\nAnaliza compatibilitate:");
+                        System.out.println(sistemRecomandare.getSugestiiPersonalizate(student, masterAles));
+
+                        // oferim recomandari concrete daca masterul nu este potrivit
+                        if (sistemRecomandare.getProcentCompatibilitate(masterAles.getNume()) < 60) {
+                            System.out.println("\nAlte programe care ar putea fi mai potrivite pentru tine:");
+                            List<Master> alternativeRecomandate = sistemRecomandare.recomandaProgrameMaster(student, mastere, criteriiMaster);
+                            // aratam primele 3 alternative
+                            for (int i = 0; i < Math.min(3, alternativeRecomandate.size()); i++) {
+                                if (!alternativeRecomandate.get(i).equals(masterAles)) {
+                                    System.out.println(" - " + alternativeRecomandate.get(i).getNume());
+                                }
+                            }
+                        }
                     } else {
                         System.out.println("Alegere invalida.");
                     }
                     break;
-                case 3:
+                case 4:
                     student.aplicaProgramMaster();
+                    break;
+                case 5:
+                    adaugaEducatieStudent(student);
                     break;
                 case 0:
                     return;
@@ -134,17 +265,89 @@ public class Main {
         }
     }
 
+    static void adaugaEducatieStudent(Student student) {
+        System.out.println("\nAdaugare Detalii Educatie");
+
+        // adaugam facultatea absolvita
+        System.out.println("1. Adauga facultatea absolvita");
+        System.out.println("2. Adauga tehnologia cunoscuta");
+        System.out.println("0. Inapoi la meniul principal");
+
+        int optiune = 0;
+        try {
+            optiune = Integer.parseInt(scanner.nextLine());
+        } catch (NumberFormatException e) {
+            System.out.println("Optiune invalida. Va rugam sa introduceti un numar.");
+            return;
+        }
+
+        switch (optiune) {
+            case 1:
+                System.out.print("Nume facultate: ");
+                String numeFacultate = scanner.nextLine();
+
+                System.out.print("Domeniu (ex: Informatica, Matematica, etc.): ");
+                String domeniu = scanner.nextLine();
+
+                System.out.print("Anul absolvirii: ");
+                int anAbsolvire = scanner.nextInt();
+
+                Facultate facultate = new Facultate(numeFacultate, domeniu, anAbsolvire);
+                student.adaugaFacultate(facultate);
+                System.out.println("Facultate adaugata cu succes!");
+                break;
+
+            case 2:
+                System.out.println("Tehnologii disponibile:");
+                for (Tehnologii t : Tehnologii.values()) {
+                    System.out.println(" - " + t.name().replace("_", " "));
+                }
+
+                System.out.print("Introduceti numele tehnologiei: ");
+                String tehnologieInput = scanner.nextLine();
+
+                try {
+                    Tehnologii tehnologie = Tehnologii.fromUserInput(tehnologieInput);
+                    student.addTechnology(tehnologie);
+                    System.out.println("Tehnologie adaugata cu succes!");
+                } catch (IllegalArgumentException e) {
+                    System.out.println("Tehnologie invalida!");
+                }
+                break;
+
+            case 0:
+                return;
+
+            default:
+                System.out.println("Optiune invalida!");
+        }
+    }
+
     static void meniuAdmin(Admin admin) {
         while (true) {
             System.out.println("\nMeniu Admin");
             System.out.println("1. Introducere program master");
             System.out.println("2. Introducere criterii minime");
             System.out.println("3. Afisare toate masterele");
+            System.out.println("4. Afisare criterii pentru un master");
             System.out.println("0. Iesire");
-            int opt = Integer.parseInt(scanner.nextLine());
+
+            int opt = 0;
+            try {
+                opt = Integer.parseInt(scanner.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.println("Optiune invalida. Va rugam sa introduceti un numar.");
+                continue;
+            }
 
             switch (opt) {
                 case 1:
+                    System.out.println("\nIntroducere Program Master");
+                    System.out.println("Nume master disponibile:");
+                    for (NumeMaster nm : NumeMaster.values()) {
+                        System.out.println(" - " + nm.name().replace("_", " "));
+                    }
+
                     System.out.print("Nume master: ");
                     NumeMaster numeMaster = null;
                     while (numeMaster == null) {
@@ -159,49 +362,115 @@ public class Main {
                     System.out.print("Descriere: ");
                     String descriere = scanner.nextLine();
 
-                    // Adaugare tehnologii
+                    // adaugare tehnologii
                     EnumSet<Tehnologii> tehnologii = EnumSet.noneOf(Tehnologii.class);
+                    System.out.println("Tehnologii disponibile:");
+                    for (Tehnologii t : Tehnologii.values()) {
+                        System.out.println(" - " + t.name().replace("_", " "));
+                    }
+
                     System.out.println("Adaugati tehnologii (scrieti END pentru a opri):");
                     while (true) {
                         String t = scanner.nextLine();
                         if (t.equalsIgnoreCase("END")) break;
                         try {
                             tehnologii.add(Tehnologii.fromUserInput(t));
+                            System.out.println("Tehnologie adaugata!");
                         } catch (IllegalArgumentException e) {
                             System.out.println("Tehnologie invalida!");
                         }
                     }
 
-                    // Adaugare competente
+                    // adaugare competente
                     EnumSet<CompetenteSpecifice> competente = EnumSet.noneOf(CompetenteSpecifice.class);
+                    System.out.println("Competențe disponibile:");
+                    for (CompetenteSpecifice c : CompetenteSpecifice.values()) {
+                        System.out.println(" - " + c.name().replace("_", " "));
+                    }
+
                     System.out.println("Adaugati competente (scrieti END pentru a opri):");
                     while (true) {
                         String c = scanner.nextLine();
                         if (c.equalsIgnoreCase("END")) break;
                         try {
                             competente.add(CompetenteSpecifice.fromUserInput(c));
+                            System.out.println("Competenta adaugata!");
                         } catch (IllegalArgumentException e) {
                             System.out.println("Competenta invalida!");
                         }
                     }
 
                     System.out.print("Numar maxim de studenti: ");
-                    int nrMax = Integer.parseInt(scanner.nextLine());
+                    int nrMax = 0;
+                    try {
+                        nrMax = Integer.parseInt(scanner.nextLine());
+                    } catch (NumberFormatException e) {
+                        System.out.println("Valoare invalida. Se va folosi 30 ca valoare implicita.");
+                        nrMax = 30;
+                    }
 
-                    // Crearea obiectului Master
-                    Master master = new Master(numeMaster, descriere, tehnologii, competente, nrMax);
-                    mastere.add(master);
-                    admin.introducereProgrameMaster(master);
+                    // verificam dacă masterul exista deja
+                    boolean exists = false;
+                    for (Master m : mastere) {
+                        if (m.getNume() == numeMaster) {
+                            exists = true;
+                            break;
+                        }
+                    }
+
+                    if (exists) {
+                        System.out.println("Un program de master cu acest nume exista deja!");
+                    } else {
+                        // crearea obiectului Master
+                        Master master = new Master(numeMaster, descriere, tehnologii, competente, nrMax);
+                        mastere.add(master);
+                        admin.introducereProgrameMaster(master);
+                        System.out.println("Program master adaugat cu succes!");
+                    }
                     break;
 
                 case 2:
+                    System.out.println("\nIntroducere Criterii Minime");
                     admin.introducereCerinteMinime();
+                    // actualizam criteriile din sistemul principal
+                    criteriiMaster.putAll(admin.getCriteriiMaster());
                     break;
+
                 case 3:
-                    for (Master mastereExistente : mastere) {
-                        mastereExistente.afisare();
+                    System.out.println("\nToate Programele de Master");
+                    if (mastere.isEmpty()) {
+                        System.out.println("Nu exista programe de master introduse!");
+                    } else {
+                        for (Master m : mastere) {
+                            m.afisare();
+                            System.out.println("----------------------------------------");
+                        }
                     }
                     break;
+
+                case 4:
+                    System.out.println("\nAfisare Criterii pentru Master");
+                    System.out.println("Selectati masterul:");
+                    for (int i = 0; i < mastere.size(); i++) {
+                        System.out.println((i + 1) + ". " + mastere.get(i).getNume());
+                    }
+
+                    int indexMaster = 0;
+                    try {
+                        indexMaster = Integer.parseInt(scanner.nextLine()) - 1;
+                    } catch (NumberFormatException e) {
+                        System.out.println("Optiune invalida.");
+                        break;
+                    }
+
+                    if (indexMaster >= 0 && indexMaster < mastere.size()) {
+                        NumeMaster master = mastere.get(indexMaster).getNume();
+                        admin.afisareCerintePentruMaster(master);
+                    } else {
+                        System.out.println("Selectie invalida!");
+                    }
+                    break;
+
                 case 0:
                     return;
                 default:

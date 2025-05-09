@@ -9,7 +9,10 @@ public enum NumeMaster {
     Securitate_Cibernetica,
     Data_Science,
     Jocuri_Video_Si_Realitate_Virtuala,
-    Cloud_Computing;
+    Cloud_Computing,
+    Inteligenta_Artificiala,
+    Inginerie_Software,
+    Big_Data;
 
     public static NumeMaster fromUserInput(String input) {
         String normalizedInput = normalize(input);

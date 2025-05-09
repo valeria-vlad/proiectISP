@@ -7,7 +7,7 @@ public class Master {
     private EnumSet<CompetenteSpecifice> competente;
     private int nrMax;
 
-    // Constructor modificat pentru a accepta EnumSet-uri
+    // Constructor
     public Master(NumeMaster numeMaster, String descriere, EnumSet<Tehnologii> tehnologii, EnumSet<CompetenteSpecifice> competente, int nrMax) {
         this.numeMaster = numeMaster;
         this.descriere = descriere;

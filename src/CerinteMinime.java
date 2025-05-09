@@ -5,10 +5,29 @@ public class CerinteMinime {
     private EnumSet<Tehnologii> tehnologiiRecomandate;
     private EnumSet<CompetenteSpecifice> competenteNecesar;
 
-    public CerinteMinime(double medie, EnumSet<Tehnologii> tehnologii, EnumSet<CompetenteSpecifice> competente) {
+    public CerinteMinime(double medie) {
         this.medieMinima = medie;
-        this.tehnologiiRecomandate = tehnologii;
-        this.competenteNecesar = competente;
+        this.tehnologiiRecomandate = EnumSet.noneOf(Tehnologii.class);
+    }
+
+    public double getMedieMinima() {
+        return medieMinima;
+    }
+
+    public void adaugaTehnologieRecomandata(Tehnologii tehnologie) {
+        this.tehnologiiRecomandate.add(tehnologie);
+    }
+
+    public void adaugaCompetentaNecesara(CompetenteSpecifice competenta) {
+        this.competenteNecesar.add(competenta);
+    }
+
+    public EnumSet<Tehnologii> getTehnologiiRecomandate() {
+        return tehnologiiRecomandate;
+    }
+
+    public EnumSet<CompetenteSpecifice> getCompetenteNecesar() {
+        return competenteNecesar;
     }
 
     @Override

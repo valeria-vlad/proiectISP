@@ -1,4 +1,7 @@
-import java.util.*;
+import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
 
 public class Admin {
     private String numeUtilizator;
@@ -10,6 +13,11 @@ public class Admin {
     public Admin(String numeUtilizator, String parola) {
         this.numeUtilizator = numeUtilizator;
         this.parola = parola;
+    }
+
+    // Getter pentru criteriiMaster
+    public Map<NumeMaster, CerinteMinime> getCriteriiMaster() {
+        return criteriiMaster;
     }
 
     public void introducereProgrameMaster(Master m) {
@@ -53,7 +61,7 @@ public class Admin {
             String t = scanner.nextLine();
             if (t.equalsIgnoreCase("END")) break;
             try {
-                tehnologii.add(Tehnologii.valueOf(t));
+                tehnologii.add(Tehnologii.fromUserInput(t));
             } catch (IllegalArgumentException e) {
                 System.out.println("Tehnologie invalida!");
             }
@@ -65,13 +73,13 @@ public class Admin {
             String c = scanner.nextLine();
             if (c.equalsIgnoreCase("END")) break;
             try {
-                competente.add(CompetenteSpecifice.valueOf(c));
+                competente.add(CompetenteSpecifice.fromUserInput(c));
             } catch (IllegalArgumentException e) {
                 System.out.println("Competenta invalida!");
             }
         }
 
-        criteriiMaster.put(master, new CerinteMinime(medie, tehnologii, competente));
+        criteriiMaster.put(master, new CerinteMinime(medie));
         System.out.println("Criteriile minime pentru " + master.name().replace("_", " ") + " au fost salvate.");
     }
 

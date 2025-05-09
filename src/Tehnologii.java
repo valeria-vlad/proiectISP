@@ -17,7 +17,12 @@ public enum Tehnologii {
     SQL,
     JavaScript,
     HTML,
-    CSS;
+    CSS,
+    TensorFlow,
+    Machine_Learning,
+    Networking,
+    Hadoop,
+    Spark;
 
     public static Tehnologii fromUserInput(String input) {
         String normalized = normalize(input);
