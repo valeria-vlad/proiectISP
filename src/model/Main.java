@@ -1,3 +1,10 @@
+package model;
+
+import model.Admin;
+import model.CerinteMinime;
+import model.CompetenteSpecifice;
+import model.Facultate;
+
 import java.util.*;
 
 public class Main {
@@ -12,8 +19,8 @@ public class Main {
 
         System.out.println("Bine ati venit la sistemul inteligent de admitere la master!");
         System.out.println("Selectati rolul:");
-        System.out.println("1. Student");
-        System.out.println("2. Admin");
+        System.out.println("1. model.Student");
+        System.out.println("2. model.Admin");
         int opt = 0;
         try {
             opt = Integer.parseInt(scanner.nextLine());
@@ -77,20 +84,37 @@ public class Main {
 
         // initializam criteriile minime pentru fiecare master
         CerinteMinime cerinteIA = new CerinteMinime(8.5);
-        cerinteIA.adaugaTehnologieRecomandata(Tehnologii.Python);
-        cerinteIA.adaugaTehnologieRecomandata(Tehnologii.Machine_Learning);
+        for (Tehnologii tech : intelligentalArtificiala.getTehnologii()) {
+            cerinteIA.adaugaTehnologieRecomandata(tech);
+        }
+        // Adaugăm toate competențele cerute de master
+        for (CompetenteSpecifice comp : intelligentalArtificiala.getCompetente()) {
+            cerinteIA.adaugaCompetentaNecesara(comp);
+        }
 
         CerinteMinime cerinteSec = new CerinteMinime(8.0);
-        cerinteSec.adaugaTehnologieRecomandata(Tehnologii.Networking);
-        cerinteSec.adaugaTehnologieRecomandata(Tehnologii.Linux);
+        for (Tehnologii tech : securitateCibernetica.getTehnologii()) {
+            cerinteSec.adaugaTehnologieRecomandata(tech);
+        }
+        for (CompetenteSpecifice comp : securitateCibernetica.getCompetente()) {
+            cerinteSec.adaugaCompetentaNecesara(comp);
+        }
 
         CerinteMinime cerinteIS = new CerinteMinime(7.5);
-        cerinteIS.adaugaTehnologieRecomandata(Tehnologii.Java);
-        cerinteIS.adaugaTehnologieRecomandata(Tehnologii.HTML);
+        for (Tehnologii tech : inginerieSoftware.getTehnologii()) {
+            cerinteIS.adaugaTehnologieRecomandata(tech);
+        }
+        for (CompetenteSpecifice comp : inginerieSoftware.getCompetente()) {
+            cerinteIS.adaugaCompetentaNecesara(comp);
+        }
 
         CerinteMinime cerinteBD = new CerinteMinime(8.0);
-        cerinteBD.adaugaTehnologieRecomandata(Tehnologii.SQL);
-        cerinteBD.adaugaTehnologieRecomandata(Tehnologii.Spark);
+        for (Tehnologii tech : bigData.getTehnologii()) {
+            cerinteBD.adaugaTehnologieRecomandata(tech);
+        }
+        for (CompetenteSpecifice comp : bigData.getCompetente()) {
+            cerinteBD.adaugaCompetentaNecesara(comp);
+        }
 
         // adaugam criteriile in map
         criteriiMaster.put(NumeMaster.Inteligenta_Artificiala, cerinteIA);
@@ -164,19 +188,22 @@ public class Main {
     }
 
     static Admin autentificareAdmin() {
-        System.out.print("Nume utilizator: ");
-        String nume = scanner.nextLine();
-        System.out.print("Parola: ");
-        String parola = scanner.nextLine();
+            System.out.print("Nume utilizator: ");
+            String nume = scanner.nextLine();
+            System.out.print("Parola: ");
+            String parola = scanner.nextLine();
 
-        Admin admin = new Admin(nume, parola);
-        System.out.println("Admin autentificat cu succes.");
-        return admin;
+            Admin admin = new Admin(nume, parola);
+            admin.setCriteriiMaster(new HashMap<>(criteriiMaster));
+
+            System.out.println("model.Admin autentificat cu succes.");
+            return admin;
+
     }
 
     static void meniuStudent(Student student) {
         while (true) {
-            System.out.println("\nMeniu Student");
+            System.out.println("\nMeniu model.Student");
             System.out.println("1. Vizualizare programe master");
             System.out.println("2. Obtine recomandari personalizate");
             System.out.println("3. Alegere program master");
@@ -194,7 +221,7 @@ public class Main {
 
             switch (opt) {
                 case 1:
-                    System.out.println("\nPrograme de Master Disponibile");
+                    System.out.println("\nPrograme de model.Master Disponibile");
                     for (Master m : mastere) {
                         m.afisare();
                         student.vizualizareProgrameMaster(m);
@@ -215,7 +242,7 @@ public class Main {
                     }
                     break;
                 case 3:
-                    System.out.println("\nAlegere Program Master");
+                    System.out.println("\nAlegere Program model.Master");
                     System.out.println("Selectati numarul masterului:");
                     for (int i = 0; i < mastere.size(); i++) {
                         System.out.println((i + 1) + ". " + mastere.get(i).getNume());
@@ -294,11 +321,11 @@ public class Main {
 
                 Facultate facultate = new Facultate(numeFacultate, domeniu, anAbsolvire);
                 student.adaugaFacultate(facultate);
-                System.out.println("Facultate adaugata cu succes!");
+                System.out.println("model.Facultate adaugata cu succes!");
                 break;
 
             case 2:
-                System.out.println("Tehnologii disponibile:");
+                System.out.println("model.Tehnologii disponibile:");
                 for (Tehnologii t : Tehnologii.values()) {
                     System.out.println(" - " + t.name().replace("_", " "));
                 }
@@ -325,7 +352,7 @@ public class Main {
 
     static void meniuAdmin(Admin admin) {
         while (true) {
-            System.out.println("\nMeniu Admin");
+            System.out.println("\nMeniu model.Admin");
             System.out.println("1. Introducere program master");
             System.out.println("2. Introducere criterii minime");
             System.out.println("3. Afisare toate masterele");
@@ -342,7 +369,7 @@ public class Main {
 
             switch (opt) {
                 case 1:
-                    System.out.println("\nIntroducere Program Master");
+                    System.out.println("\nIntroducere Program model.Master");
                     System.out.println("Nume master disponibile:");
                     for (NumeMaster nm : NumeMaster.values()) {
                         System.out.println(" - " + nm.name().replace("_", " "));
@@ -364,7 +391,7 @@ public class Main {
 
                     // adaugare tehnologii
                     EnumSet<Tehnologii> tehnologii = EnumSet.noneOf(Tehnologii.class);
-                    System.out.println("Tehnologii disponibile:");
+                    System.out.println("model.Tehnologii disponibile:");
                     for (Tehnologii t : Tehnologii.values()) {
                         System.out.println(" - " + t.name().replace("_", " "));
                     }
@@ -421,7 +448,7 @@ public class Main {
                     if (exists) {
                         System.out.println("Un program de master cu acest nume exista deja!");
                     } else {
-                        // crearea obiectului Master
+                        // crearea obiectului model.Master
                         Master master = new Master(numeMaster, descriere, tehnologii, competente, nrMax);
                         mastere.add(master);
                         admin.introducereProgrameMaster(master);
@@ -437,7 +464,7 @@ public class Main {
                     break;
 
                 case 3:
-                    System.out.println("\nToate Programele de Master");
+                    System.out.println("\nToate Programele de model.Master");
                     if (mastere.isEmpty()) {
                         System.out.println("Nu exista programe de master introduse!");
                     } else {
@@ -449,7 +476,7 @@ public class Main {
                     break;
 
                 case 4:
-                    System.out.println("\nAfisare Criterii pentru Master");
+                    System.out.println("\nAfisare Criterii pentru model.Master");
                     System.out.println("Selectati masterul:");
                     for (int i = 0; i < mastere.size(); i++) {
                         System.out.println((i + 1) + ". " + mastere.get(i).getNume());

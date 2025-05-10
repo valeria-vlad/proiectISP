@@ -1,3 +1,6 @@
+package model;
+
+import model.CompetenteSpecifice;
 import java.util.EnumSet;
 
 public class Master {
@@ -22,6 +25,15 @@ public class Master {
 
     public String getDescriere() {
         return descriere;
+    }
+
+    // Adăugăm getteri pentru tehnologii și competențe
+    public EnumSet<Tehnologii> getTehnologii() {
+        return tehnologii;
+    }
+
+    public EnumSet<CompetenteSpecifice> getCompetente() {
+        return competente;
     }
 
     public void afisare() {

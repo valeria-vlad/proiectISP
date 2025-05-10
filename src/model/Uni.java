@@ -1,3 +1,5 @@
+package model;
+
 public enum Uni {
     Universitatea_Nationala_de_Stiința_si_Tehnologie_Politenica_București,
     Universitatea_din_București,

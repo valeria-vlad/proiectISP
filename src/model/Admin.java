@@ -1,3 +1,5 @@
+package model;
+
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
@@ -18,6 +20,11 @@ public class Admin {
     // Getter pentru criteriiMaster
     public Map<NumeMaster, CerinteMinime> getCriteriiMaster() {
         return criteriiMaster;
+    }
+
+    // Setter pentru criteriiMaster - adăugat nou
+    public void setCriteriiMaster(Map<NumeMaster, CerinteMinime> criteriiMaster) {
+        this.criteriiMaster = criteriiMaster;
     }
 
     public void introducereProgrameMaster(Master m) {
@@ -79,7 +86,15 @@ public class Admin {
             }
         }
 
-        criteriiMaster.put(master, new CerinteMinime(medie));
+        CerinteMinime cerinteMinime = new CerinteMinime(medie);
+        for (Tehnologii tehnologie : tehnologii) {
+            cerinteMinime.adaugaTehnologieRecomandata(tehnologie);
+        }
+        for (CompetenteSpecifice competenta : competente) {
+            cerinteMinime.adaugaCompetentaNecesara(competenta);
+        }
+
+        criteriiMaster.put(master, cerinteMinime);
         System.out.println("Criteriile minime pentru " + master.name().replace("_", " ") + " au fost salvate.");
     }
 

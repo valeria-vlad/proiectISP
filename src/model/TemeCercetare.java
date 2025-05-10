@@ -1,3 +1,7 @@
+package model;
+
+import model.Tehnologii;
+
 public class TemeCercetare {
     private String nume;
     private String descriere;
@@ -14,7 +18,7 @@ public class TemeCercetare {
     public void afisare() {
         System.out.println("Nume tema cercetare: " + nume);
         System.out.println("Descriere tema cercetare: " + descriere);
-        System.out.println("Tehnologii utilizate: " + tehnologii);
+        System.out.println("model.Tehnologii utilizate: " + tehnologii);
         System.out.println("Numar studenti: " + numarStudenti);
     }
 }

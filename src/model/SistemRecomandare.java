@@ -1,3 +1,10 @@
+package model;
+
+import model.CerinteMinime;
+import model.Facultate;
+import model.Master;
+import model.NumeMaster;
+
 import java.util.*;
 
 public class SistemRecomandare {

@@ -1,3 +1,9 @@
+package model;
+
+import model.Facultate;
+import model.Master;
+import model.ProfesorCoordonator;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,16 +73,16 @@ public class Student {
 
     public void vizualizareProgrameMaster(Master m) {
         mastereVizualizate.add(m);
-        System.out.println("Master vizualizat: " + m.getNume() +  " - " + m.getDescriere() );
+        System.out.println("model.Master vizualizat: " + m.getNume() +  " - " + m.getDescriere() );
     }
 
     public void alegereProgramMaster(Master m) {
         masterAles = m;
-        System.out.println("Master ales: " + m.getNume());
+        System.out.println("model.Master ales: " + m.getNume());
     }
 
     public void autentificare() {
-        System.out.println("Student " + nume + " s-a autentificat cu emailul: " + email);
+        System.out.println("model.Student " + nume + " s-a autentificat cu emailul: " + email);
     }
 
     public void aplicaProgramMaster() {

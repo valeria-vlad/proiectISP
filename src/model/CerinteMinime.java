@@ -1,3 +1,5 @@
+package model;
+
 import java.util.EnumSet;
 
 public class CerinteMinime {
@@ -8,6 +10,7 @@ public class CerinteMinime {
     public CerinteMinime(double medie) {
         this.medieMinima = medie;
         this.tehnologiiRecomandate = EnumSet.noneOf(Tehnologii.class);
+        this.competenteNecesar = EnumSet.noneOf(CompetenteSpecifice.class); // Inițializăm și acest EnumSet
     }
 
     public double getMedieMinima() {

@@ -1,3 +1,5 @@
+package model;
+
 public class Facultate {
     private String nume;
     private String domeniu;
@@ -15,7 +17,7 @@ public class Facultate {
     }
 
     public void afisare() {
-        System.out.println("Nume Facultate: " + nume);
+        System.out.println("Nume model.Facultate: " + nume);
         System.out.println("Nume domeniu: " + domeniu);
         System.out.println("Nume universitate: " + uni);
     }

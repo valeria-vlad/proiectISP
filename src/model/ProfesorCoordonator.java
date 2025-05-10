@@ -1,3 +1,8 @@
+package model;
+
+import model.CompetenteSpecifice;
+import model.NumeMaster;
+
 import java.util.ArrayList;
 import java.util.List;
 
