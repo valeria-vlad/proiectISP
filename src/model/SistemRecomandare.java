@@ -30,7 +30,7 @@ public class SistemRecomandare {
         return recomandari;
     }
 
-    private double calculeazaScorCompatibilitate(Student student, Master program, CerinteMinime cerinte) {
+    public double calculeazaScorCompatibilitate(Student student, Master program, CerinteMinime cerinte) {
         double scor = 0.0;
 
         // verificam dacă programul are cerinte minime definite

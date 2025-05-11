@@ -16,32 +16,96 @@ public class Main {
 
     public static void main(String[] args) {
         initializeazaDatele();
-
         System.out.println("Bine ati venit la sistemul inteligent de admitere la master!");
-        System.out.println("Selectati rolul:");
-        System.out.println("1. model.Student");
-        System.out.println("2. model.Admin");
-        int opt = 0;
-        try {
-            opt = Integer.parseInt(scanner.nextLine());
-        } catch (NumberFormatException e) {
-            System.out.println("Optiune invalida. Va rugam sa introduceti un numar.");
-            main(args); // recursivitate pentru repornirea aplicatiei
+        int opt = selectProgramOption("Selectati rolul:", "1. model.Student",
+                "2. model.Admin", "Optiune invalida. Va rugam sa introduceti un numar." );
+        if (opt != 1 && opt != 2) {
+            System.out.println("Optiune invalida la inceput!");
             return;
         }
-
         if (opt == 1) {
             Student student = autentificareSauCreareStudent();
-            meniuStudent(student);
-        } else if (opt == 2) {
+            int student_opt = 0;
+            while (true) {
+                System.out.println("\nMeniu model.Student");
+                System.out.println("1. Vizualizare programe master");
+                System.out.println("2. Obtine recomandari personalizate");
+                System.out.println("3. Alegere program master");
+                System.out.println("4. Aplicare la master");
+                System.out.println("5. Adauga detalii educatie");
+                System.out.println("0. Iesire");
+
+                try {
+                    student_opt = Integer.parseInt(scanner.nextLine());
+                    meniuStudent(student_opt, student);
+                } catch (NumberFormatException e) {
+                    System.out.println("Optiune invalida. Va rugam sa introduceti un numar valid.");
+                }
+            }
+        }
+        if (opt == 2) {
             Admin admin = autentificareAdmin();
             meniuAdmin(admin);
-        } else {
-            System.out.println("Optiune invalida!");
-            main(args); // recursivitate pentru repornirea aplicatiei
         }
     }
 
+
+
+
+    public static int selectProgramOption(String intrebare, String varianta1, String varianta2, String error) {
+        int opt = 0;
+        while(true) {
+            System.out.println(intrebare);
+            System.out.println(varianta1);
+            System.out.println(varianta2);
+            try {
+                opt = Integer.parseInt(scanner.nextLine());
+                if (opt == 1 || opt == 2) return opt;
+            } catch (NumberFormatException e) {
+                System.out.println(error);
+            }
+        }
+    }
+
+    public static String introducereEmail() {
+        System.out.print("Email: ");
+        while(true) {
+            String mail = scanner.nextLine();
+            if (conturiStudenti.containsKey(mail)) {
+                return mail;
+            } else {
+                System.out.println("Nu exista un cont cu acest email. Doriti sa mai continuati?");
+                System.out.println("Alegeti una din variantele: 'da', 'nu'");
+                String answer = scanner.nextLine();
+                if (answer.equals("nu")) break;
+            }
+        }
+        System.out.println("Utilizatorul a uitat mail-ul");
+        return "";
+    }
+
+    public static Student readStudentData() {
+        System.out.print("Nume: ");
+        String nume = scanner.nextLine();
+        System.out.print("Email: ");
+        String mail = scanner.nextLine();
+        System.out.print("Telefon: ");
+        String nrTel = scanner.nextLine();
+        System.out.print("Data nasterii: ");
+        String dataNastere = scanner.nextLine();
+        System.out.print("Data absolvire: ");
+        String dataAbsolvire = scanner.nextLine();
+
+        System.out.print("Medie facultate: ");
+        double medie = 0;
+        try {
+            medie = Double.parseDouble(scanner.nextLine());
+        } catch (NumberFormatException e) {
+            System.out.println("Valoare invalida pentru medie. Se va folosi 0.");
+        }
+
+        return new Student(nume, mail, nrTel, dataNastere, dataAbsolvire, medie);
+    }
     static void initializeazaDatele() {
         // initializam cateva programe de master
         Master intelligentalArtificiala = new Master(
@@ -123,68 +187,35 @@ public class Main {
         criteriiMaster.put(NumeMaster.Big_Data, cerinteBD);
 
         // adaugam cativa studenti predefiniti pentru testare
-        Student student1 = new Student("Ana Popescu", "ana@gmail.com.com", "0722111222", "12.05.1999", "20.06.2023", 9.2);
+        Student student1 = new Student("Ana Popescu", "ana@gmail.com", "0722111222", "12.05.1999", "20.06.2023", 9.2);
         student1.addTechnology(Tehnologii.Java);
         student1.addTechnology(Tehnologii.Python);
 
-        Student student2 = new Student("Mihai Ionescu", "mihai@gmail.com.com", "0733222333", "22.02.1998", "15.06.2022", 8.4);
+        Student student2 = new Student("Mihai Ionescu", "mihai@gmail.com", "0733222333", "22.02.1998", "15.06.2022", 8.4);
         student2.addTechnology(Tehnologii.SQL);
         student2.addTechnology(Tehnologii.HTML);
 
-        conturiStudenti.put("ana@gmail.com", student1);
-        conturiStudenti.put("mihai@gmail.com", student2);
+        conturiStudenti.put(student1.getEmail(), student1);
+        conturiStudenti.put(student2.getEmail(), student2);
     }
 
     static Student autentificareSauCreareStudent() {
-        System.out.println("Aveti deja un cont?");
-        System.out.println("1. Da");
-        System.out.println("2. Nu");
-        int opt = 0;
-        try {
-            opt = Integer.parseInt(scanner.nextLine());
-        } catch (NumberFormatException e) {
-            System.out.println("Optiune invalida. Va rugam sa introduceti un numar.");
-            return autentificareSauCreareStudent();
+        int opt2 = selectProgramOption("Aveti deja un cont?", "1. Da",
+                "2. Nu", "Optiune invalida. Va rugam sa introduceti un numar." );
+        if (opt2 != 1 && opt2 != 2) {
+            System.out.println("Optiune invalida");
+            return null;
         }
-
-        if (opt == 1) {
-            System.out.print("Email: ");
-            String mail = scanner.nextLine();
-            if (conturiStudenti.containsKey(mail)) {
-                System.out.println("Autentificare reusita!");
-                return conturiStudenti.get(mail);
-            } else {
-                System.out.println("Nu exista un cont cu acest email.");
-                return autentificareSauCreareStudent();
+        Student student = null;
+        if (opt2 == 1) {
+            String email = introducereEmail();
+            if (conturiStudenti.containsKey(email)) {
+                System.out.println("User-ul s-a autentificat cu succes");
+                return conturiStudenti.get(email);
             }
-        } else if (opt == 2) {
-            System.out.print("Nume: ");
-            String nume = scanner.nextLine();
-            System.out.print("Email: ");
-            String mail = scanner.nextLine();
-            System.out.print("Telefon: ");
-            String nrTel = scanner.nextLine();
-            System.out.print("Data nasterii: ");
-            String dataNastere = scanner.nextLine();
-            System.out.print("Data absolvire: ");
-            String dataAbsolvire = scanner.nextLine();
-            System.out.print("Medie facultate: ");
-            double medie = 0;
-            try {
-                medie = Double.parseDouble(scanner.nextLine());
-            } catch (NumberFormatException e) {
-                System.out.println("Valoare invalida pentru medie. Se va folosi 0.");
-            }
-
-            Student student = new Student(nume, mail, nrTel, dataNastere, dataAbsolvire, medie);
-            conturiStudenti.put(mail, student);
-            student.autentificare();
-            System.out.println("Cont creat si autentificat cu succes!");
-            return student;
-        } else {
-            System.out.println("Optiune invalida.");
-            return autentificareSauCreareStudent();
         }
+        System.out.println("Nu a fost gasit un student, se va crea un cont");
+        return readStudentData();
     }
 
     static Admin autentificareAdmin() {
@@ -201,24 +232,7 @@ public class Main {
 
     }
 
-    static void meniuStudent(Student student) {
-        while (true) {
-            System.out.println("\nMeniu model.Student");
-            System.out.println("1. Vizualizare programe master");
-            System.out.println("2. Obtine recomandari personalizate");
-            System.out.println("3. Alegere program master");
-            System.out.println("4. Aplicare la master");
-            System.out.println("5. Adauga detalii educatie");
-            System.out.println("0. Iesire");
-
-            int opt = 0;
-            try {
-                opt = Integer.parseInt(scanner.nextLine());
-            } catch (NumberFormatException e) {
-                System.out.println("Optiune invalida. Va rugam sa introduceti un numar.");
-                continue;
-            }
-
+    static void meniuStudent(int opt, Student student) {
             switch (opt) {
                 case 1:
                     System.out.println("\nPrograme de model.Master Disponibile");
@@ -290,7 +304,6 @@ public class Main {
                     System.out.println("Optiune invalida!");
             }
         }
-    }
 
     static void adaugaEducatieStudent(Student student) {
         System.out.println("\nAdaugare Detalii Educatie");

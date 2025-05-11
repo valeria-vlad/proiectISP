@@ -12,6 +12,14 @@ public class Admin {
     private Map<NumeMaster, CerinteMinime> criteriiMaster = new HashMap<>();
     private Scanner scanner = new Scanner(System.in);
 
+
+    public String getParola() {
+        return parola;
+    }
+    public String getUtilizator() {
+        return numeUtilizator;
+    }
+
     public Admin(String numeUtilizator, String parola) {
         this.numeUtilizator = numeUtilizator;
         this.parola = parola;
@@ -98,13 +106,15 @@ public class Admin {
         System.out.println("Criteriile minime pentru " + master.name().replace("_", " ") + " au fost salvate.");
     }
 
-    public void afisareCerintePentruMaster(NumeMaster master) {
+    public boolean afisareCerintePentruMaster(NumeMaster master) {
         CerinteMinime cerinte = criteriiMaster.get(master);
         if (cerinte != null) {
             System.out.println("Criterii pentru " + master.name().replace("_", " ") + ":");
             System.out.println(cerinte);
+            return true;
         } else {
             System.out.println("Nu exista criterii introduse pentru acest master.");
+            return false;
         }
     }
 }

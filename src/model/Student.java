@@ -24,6 +24,17 @@ public class Student {
         this.medieFacultate = medieFacultate;
     }
 
+    public Student(Student student) {
+        this.nume = student.nume;
+        this.email = student.email;
+        this.nrTelefon = student.nrTelefon;
+        this.dataAbsolvirii= student.dataAbsolvirii;
+        this.dataNasterii = student.dataNasterii;
+        this.medieFacultate = student.medieFacultate;
+    }
+
+    public String getEmail(){return email;}
+
     public String getNume() {
         return nume;
     }

@@ -33,6 +33,9 @@ public class CerinteMinime {
         return competenteNecesar;
     }
 
+    public EnumSet<CompetenteSpecifice> getCompetenteNecesare() {
+        return competenteNecesar;
+    }
     @Override
     public String toString() {
         return "Medie minima: " + medieMinima +
